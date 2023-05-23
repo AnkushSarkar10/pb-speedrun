@@ -15,7 +15,10 @@ export default function Home({ data }) {
         let unsubscribe: UnsubscribeFunc;
         const subscribe = async () => {
             unsubscribe = await pb.collection("manz").subscribe("*", (e) => {
-                setDynamicData((old: any) => [...old, e.record]);
+              pb.collection("manz").getList(1, 50).then((resultList) => {
+                setDynamicData(JSON.parse(JSON.stringify(resultList.items)));
+                console.log(e)
+              })
             });
         };
         subscribe();
